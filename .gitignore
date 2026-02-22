@@ -24,5 +24,10 @@ package-lock.json
 
 # Misc
 .DS_Store
-img/
 log/
+
+# Include logo
+img/*
+!img/avatar.png
+!img/favicon.ico
+
