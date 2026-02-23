@@ -26,6 +26,11 @@ package-lock.json
 .DS_Store
 log/
 
+# Exclude posts
+网友分享
+日记
+技术笔记
+
 # Include logo
 img/*
 !img/avatar.png
