@@ -25,6 +25,7 @@ package-lock.json
 # Misc
 .DS_Store
 log/
+log
 
 # Include logo
 img/*
