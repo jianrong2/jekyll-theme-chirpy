@@ -25,6 +25,7 @@ package-lock.json
 # Misc
 .DS_Store
 log/
+log
 
 # Exclude posts
 网友分享
