@@ -241,20 +241,20 @@ jekyll-spaceship:
     - element-processor
   mathjax-processor:
     src:
-      - https://polyfill.io/v3/polyfill.min.js?features=es6
+      - https://cdn.jsdelivr.net/npm/js-polyfills@0.1.43/polyfill.min.js?features=es6
       - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
     config:
       tex:
         inlineMath:
-          - ['$$[^\n$]','[^\n$]$$']
+          - ['\$\$[^\n]','[^\n]\$\$']
           - ['\(','\)']
         displayMath:
-          - ['$$\n','\n$$']
+          - ['^\$\$\n','^\n\$\$']
           - ['\[','\]']
       svg:
         fontCache: 'global'
     optimize: # optimization on building stage to check and add mathjax scripts
-      enabled: true # value `false` for adding to all pages
+      enabled: false # value `false` for adding to all pages
       include: []   # include patterns for math expressions checking (regexp)
       exclude: []   # exclude patterns for math expressions checking (regexp)
   plantuml-processor:
@@ -274,7 +274,7 @@ jekyll-spaceship:
       custom: ['@startmermaid', '@endmermaid']
     config:
       theme: default
-    src: https://mermaid.ink/svg/
+    src: http://10.0.4.1:3000/svg/
   media-processor:
     default:
       id: 'media-{id}'
