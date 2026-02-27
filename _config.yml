@@ -274,7 +274,7 @@ jekyll-spaceship:
       custom: ['@startmermaid', '@endmermaid']
     config:
       theme: default
-    src: http://10.0.4.1:3000/svg/
+    src: http://10.0.4.1:3301/svg/
   media-processor:
     default:
       id: 'media-{id}'
