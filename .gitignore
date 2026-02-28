@@ -38,3 +38,5 @@ img/*
 !img/avatar.png
 !img/favicon.ico
 
+# Exclude customized gems
+customized_gems/
