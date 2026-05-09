@@ -1,22 +1,127 @@
 ---
 layout: page
-# All the Tags of posts.
+# All tags, with optional hierarchical categories from _data/tag_categories.yml
 ---
 
-<div id="tags" class="d-flex flex-wrap mx-xl-2">
-  {% assign tags = '' | split: '' %}
+{% assign categories = site.data.tag_categories %}
+
+<div id="tags" class="mx-xl-2">
+
+  {% assign all_tags = '' | split: '' %}
   {% for t in site.tags %}
-    {% assign tags = tags | push: t[0] %}
+    {% assign all_tags = all_tags | push: t[0] %}
   {% endfor %}
+  {% assign all_tags = all_tags | sort_natural %}
 
-  {% assign sorted_tags = tags | sort_natural %}
+  {% if categories and categories.size > 0 %}
+    {% assign rendered_tags_csv = ',' %}
 
-  {% for t in sorted_tags %}
-    <div>
-      <a class="tag" href="{{ t | slugify | url_encode | prepend: '/tags/' | append: '/' | relative_url }}">
-        {{ t -}}
-        <span class="text-muted">{{ site.tags[t].size }}</span>
-      </a>
+    {% for top in categories %}
+      {% assign top_name = top[0] %}
+      {% assign top_value = top[1] %}
+
+      <section class="mb-3">
+        <h2 class="h5 mb-2 category-title-box"><strong>{{ top_name }}</strong></h2>
+
+        {% assign has_subcategories = false %}
+        {% for item in top_value %}
+          {% if item[1] %}
+            {% assign has_subcategories = true %}
+            {% break %}
+          {% endif %}
+        {% endfor %}
+
+        <div class="d-flex flex-wrap">
+          {% if has_subcategories %}
+            {% for sub in top_value %}
+              {% assign sub_name = sub[0] %}
+              {% assign sub_tags = sub[1] %}
+
+              {% assign has_any = false %}
+              {% for tag_name in sub_tags %}
+                {% if site.tags[tag_name] and site.tags[tag_name].size > 0 %}
+                  {% assign has_any = true %}
+                  {% break %}
+                {% endif %}
+              {% endfor %}
+
+              {% if has_any %}
+                <div>
+                  <span class="tag"><strong><u>{{ sub_name }}</u></strong></span>
+                </div>
+
+                {% for tag_name in sub_tags %}
+                  {% if site.tags[tag_name] and site.tags[tag_name].size > 0 %}
+                    {% assign marker = ',' | append: tag_name | append: ',' %}
+                    {% unless rendered_tags_csv contains marker %}
+                      {% assign rendered_tags_csv = rendered_tags_csv | append: tag_name | append: ',' %}
+                    {% endunless %}
+
+                    <div>
+                      <a class="tag" href="{{ tag_name | slugify | url_encode | prepend: '/tags/' | append: '/' | relative_url }}">
+                        {{ tag_name -}}
+                        <span class="text-muted">{{ site.tags[tag_name].size }}</span>
+                      </a>
+                    </div>
+                  {% endif %}
+                {% endfor %}
+              {% endif %}
+            {% endfor %}
+          {% else %}
+            {% for tag_name in top_value %}
+              {% if site.tags[tag_name] and site.tags[tag_name].size > 0 %}
+                {% assign marker = ',' | append: tag_name | append: ',' %}
+                {% unless rendered_tags_csv contains marker %}
+                  {% assign rendered_tags_csv = rendered_tags_csv | append: tag_name | append: ',' %}
+                {% endunless %}
+
+                <div>
+                  <a class="tag" href="{{ tag_name | slugify | url_encode | prepend: '/tags/' | append: '/' | relative_url }}">
+                    {{ tag_name -}}
+                    <span class="text-muted">{{ site.tags[tag_name].size }}</span>
+                  </a>
+                </div>
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+        </div>
+      </section>
+    {% endfor %}
+
+    {% assign uncategorized = '' | split: '' %}
+    {% for tag_name in all_tags %}
+      {% assign marker = ',' | append: tag_name | append: ',' %}
+      {% unless rendered_tags_csv contains marker %}
+        {% assign uncategorized = uncategorized | push: tag_name %}
+      {% endunless %}
+    {% endfor %}
+
+    {% if uncategorized.size > 0 %}
+      <section class="mb-2">
+        <h2 class="h5 mb-2 category-title-box"><strong>Other</strong></h2>
+        <div class="d-flex flex-wrap">
+          {% for tag_name in uncategorized %}
+            <div>
+              <a class="tag" href="{{ tag_name | slugify | url_encode | prepend: '/tags/' | append: '/' | relative_url }}">
+                {{ tag_name -}}
+                <span class="text-muted">{{ site.tags[tag_name].size }}</span>
+              </a>
+            </div>
+          {% endfor %}
+        </div>
+      </section>
+    {% endif %}
+
+  {% else %}
+    <div class="d-flex flex-wrap mx-xl-2">
+      {% for t in all_tags %}
+        <div>
+          <a class="tag" href="{{ t | slugify | url_encode | prepend: '/tags/' | append: '/' | relative_url }}">
+            {{ t -}}
+            <span class="text-muted">{{ site.tags[t].size }}</span>
+          </a>
+        </div>
+      {% endfor %}
     </div>
-  {% endfor %}
+  {% endif %}
 </div>

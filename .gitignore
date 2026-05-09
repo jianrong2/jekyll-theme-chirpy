@@ -40,3 +40,6 @@ img/*
 
 # Exclude customized gems
 customized_gems/
+
+# Exclude tag categories
+_data/tag_categories.yml
