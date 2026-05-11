@@ -21,3 +21,11 @@
     justify-content: center !important;
   }
 }
+
+.category-title-box {
+  display: inline-block;
+  padding: 0 0;
+  border: 2px solid #000;
+  border-radius: 0;
+  background-color: var(--bs-body-bg, #fff);
+}
