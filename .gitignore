@@ -29,9 +29,7 @@ log
 研究日志
 
 # Exclude posts
-网友分享
-日记
-技术笔记
+_posts
 
 # Include logo
 img/*
